@@ -1,0 +1,276 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&display=swap');
+
+:root {
+  --hex-size: 70px;
+  --hex-gap: 4px;
+  --team1-color: #22c55e;
+  --team2-color: #ef4444;
+  --primary-color: #00d4aa;
+  --gold-color: #ffd700;
+  --navy-bg: #0a1628;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  direction: rtl;
+}
+
+body {
+  font-family: 'Noto Kufi Arabic', 'Tajawal', sans-serif;
+  background: var(--navy-bg);
+  color: white;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Background gradient */
+.game-bg {
+  background: linear-gradient(135deg, #0a1628 0%, #1a2744 50%, #0d1f3c 100%);
+  min-height: 100vh;
+  position: relative;
+}
+
+.game-bg::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at 30% 20%, rgba(0, 212, 170, 0.05) 0%, transparent 50%),
+              radial-gradient(circle at 70% 80%, rgba(255, 215, 0, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+/* Hexagonal Grid */
+.hex-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  direction: ltr;
+}
+
+.hex-row {
+  display: flex;
+  gap: var(--hex-gap);
+}
+
+.hex-row:nth-child(even) {
+  margin-right: calc(var(--hex-size) / 2 + var(--hex-gap) / 2);
+}
+
+/* Hexagon shape */
+.hexagon {
+  width: var(--hex-size);
+  height: calc(var(--hex-size) * 1.1547);
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.hexagon:hover {
+  transform: scale(1.1);
+  z-index: 10;
+}
+
+.hexagon-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  font-size: 1.5rem;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.hex-default {
+  background: linear-gradient(135deg, rgba(0, 212, 170, 0.15) 0%, rgba(0, 212, 170, 0.05) 100%);
+  border: 2px solid rgba(0, 212, 170, 0.3);
+}
+
+.hex-default .hexagon-inner {
+  background: linear-gradient(135deg, rgba(10, 22, 40, 0.9) 0%, rgba(26, 39, 68, 0.9) 100%);
+}
+
+.hex-team1 {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.6) 0%, rgba(34, 197, 94, 0.3) 100%);
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+}
+
+.hex-team1 .hexagon-inner {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.3) 0%, rgba(34, 197, 94, 0.15) 100%);
+  color: #86efac;
+}
+
+.hex-team2 {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.6) 0%, rgba(239, 68, 68, 0.3) 100%);
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.4);
+}
+
+.hex-team2 .hexagon-inner {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.3) 0%, rgba(239, 68, 68, 0.15) 100%);
+  color: #fca5a5;
+}
+
+.hex-active {
+  animation: hexPulse 1.5s ease-in-out infinite;
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.6);
+}
+
+/* Timer ring */
+.timer-ring {
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.timer-ring svg {
+  transform: rotate(-90deg);
+}
+
+.timer-ring circle {
+  fill: none;
+  stroke-width: 4;
+}
+
+.timer-ring .bg {
+  stroke: rgba(255, 255, 255, 0.1);
+}
+
+.timer-ring .progress {
+  stroke: var(--primary-color);
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1s linear;
+}
+
+.timer-ring.danger .progress {
+  stroke: #ef4444;
+}
+
+/* Glassmorphism cards */
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+}
+
+/* Button styles */
+.btn-primary {
+  background: linear-gradient(135deg, #00d4aa 0%, #00a888 100%);
+  color: white;
+  padding: 12px 32px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 212, 170, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 212, 170, 0.5);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  padding: 12px 32px;
+  border-radius: 12px;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Gold shimmer text */
+.gold-text {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4a 50%, #ffd700 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Stretched Arabic title effect */
+.title-stretched {
+  letter-spacing: 0.3em;
+  font-weight: 900;
+}
+
+/* Responsive hex sizes */
+@media (max-width: 768px) {
+  :root {
+    --hex-size: 50px;
+  }
+  .hexagon-inner {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --hex-size: 40px;
+  }
+  .hexagon-inner {
+    font-size: 0.9rem;
+  }
+}
+
+/* Correct answer flash */
+@keyframes correctFlash {
+  0% { background-color: transparent; }
+  50% { background-color: rgba(34, 197, 94, 0.3); }
+  100% { background-color: transparent; }
+}
+
+@keyframes wrongFlash {
+  0% { background-color: transparent; }
+  50% { background-color: rgba(239, 68, 68, 0.3); }
+  100% { background-color: transparent; }
+}
+
+.correct-flash {
+  animation: correctFlash 0.6s ease-out;
+}
+
+.wrong-flash {
+  animation: wrongFlash 0.6s ease-out;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 212, 170, 0.3);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 212, 170, 0.5);
+}
